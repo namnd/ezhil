@@ -27,6 +27,8 @@
 				{{ end }}
 			{{ end }}
 		</div>
+    {{- partial "comments.html" . -}}
+
 		{{- $.Scratch.Set "isDisqus" true -}}
 
 		<!-- Disable if content type is excluded in config -->
