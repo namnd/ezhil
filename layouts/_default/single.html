@@ -27,7 +27,10 @@
 				{{ end }}
 			{{ end }}
 		</div>
+		<!-- Check if content has flag to enable/disable comment explicitly -->
+		{{- if not (and (isset .Params "comment") (eq .Params.comment false)) -}}
     {{- partial "comments.html" . -}}
+		{{- end -}}
 
 		{{- $.Scratch.Set "isDisqus" true -}}
 
