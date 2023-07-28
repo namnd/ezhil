@@ -6,8 +6,23 @@
 		{{ partial "head.html" . }}
 
 		<div class="post-header">
-			<h1 class="title">{{ .Title }}</h1>
-			<div class="meta">
+      <h1 class="title">{{ .Title }}</h1>
+
+      <div class="post-tags">
+        {{ if ne .Type "page" }}
+        {{ if gt .Params.tags 0 }}
+        <nav class="nav tags">
+          <ul class="flat">
+            {{ range .Params.tags }}
+            <li><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+            {{ end }}
+          </ul>
+        </nav>
+        {{ end }}
+        {{ end }}
+      </div>
+
+      <div class="meta">
         Posted at &mdash; {{ dateFormat "Jan 2, 2006" .Date }}
         {{ if ne .Type "page "}} &middot; {{ math.Round (div (countwords .Content) 200.0) }} min read {{ end }}
         {{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}
@@ -16,20 +31,6 @@
 
 		<div class="markdown">
 			{{ .Content }}
-		</div>
-
-		<div class="post-tags">
-			{{ if ne .Type "page" }}
-				{{ if gt .Params.tags 0 }}
-					<nav class="nav tags">
-							<ul class="flat">
-								{{ range .Params.tags }}
-								<li><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
-								{{ end }}
-							</ul>
-					</nav>
-				{{ end }}
-			{{ end }}
 		</div>
 		<!-- Check if content has flag to enable/disable comment explicitly -->
 		{{- if not (and (isset .Params "comment") (eq .Params.comment false)) -}}
